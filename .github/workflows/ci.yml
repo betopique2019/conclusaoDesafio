@@ -1,0 +1,38 @@
+name: CI Pipeline
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:  # execução manual
+  schedule:
+    - cron: "0 0 * * *"  # todo dia à meia-noite
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Clonar repositório
+        uses: actions/checkout@v3
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+
+      - name: Instalar dependências
+        run: npm install
+
+      - name: Executar testes
+        run: npm test
+
+      - name: Gerar relatório de testes
+        run: |
+          mkdir reports
+          npm test > reports/test-report.txt
+
+      - name: Upload do relatório
+        uses: actions/upload-artifact@v3
+        with:
+          name: relatorio-testes
+          path: reports/test-report.txt
