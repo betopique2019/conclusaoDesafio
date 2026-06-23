@@ -2,10 +2,10 @@ name: CI Pipeline
 
 on:
   push:
-    branches: [ "master" ]   # ajuste para seu branch
-  workflow_dispatch:         # execução manual
+    branches: [ "master" ]
+  workflow_dispatch:
   schedule:
-    - cron: "0 0 * * *"      # execução diária
+    - cron: "0 0 * * *"
 
 jobs:
   test:
@@ -13,10 +13,10 @@ jobs:
 
     steps:
       - name: Clonar repositório
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Configurar Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: '18'
 
@@ -32,7 +32,7 @@ jobs:
           npm test > reports/test-report.txt
 
       - name: Upload do relatório
-        uses: actions/upload-artifact@v4   # ✅ versão corrigida
+        uses: actions/upload-artifact@v4
         with:
           name: relatorio-testes
           path: reports/test-report.txt
